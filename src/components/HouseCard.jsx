@@ -3,7 +3,9 @@ import { CiHeart } from "react-icons/ci";
 import { TbBed } from "react-icons/tb";
 import { FaBath } from "react-icons/fa";
 import { IoCube } from "react-icons/io5";
+import { useState } from "react";
 const HouseCard = ({ house }) => {
+  const [liked, setLiked] = useState(false);
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg">
       <img
@@ -14,7 +16,13 @@ const HouseCard = ({ house }) => {
       <div className="p-4">
         <div className="flex justify-between items-center">
           <p className="text-blue-600 font-bold text-lg">₹ {house.price}/day</p>
-          <CiHeart className="text-gray-400" size={24} />
+          <CiHeart
+            onClick={() => setLiked(!liked)}
+            className={`text-2xl text-gray-400 cursor-pointer ${
+              liked && "text-red-500 fill-red-500 "
+            }`}
+            size={24}
+          />
         </div>
         <h3 className="text-xl font-semibold mt-2">{house.title}</h3>
         <p className="text-gray-600">{house.address}</p>

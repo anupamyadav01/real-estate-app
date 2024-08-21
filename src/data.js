@@ -677,4 +677,17 @@ export const data = [
     sqft: "76x2",
     liked: false,
   },
+  {
+    id: uuidv4(),
+    imgurl:
+      "https://images.unsplash.com/photo-1538973947079-ff96f5daf40e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTd8MjMwMzE1MXx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60",
+    title: "House15",
+    type: "house",
+    price: 1450,
+    address: "204-obc nagar,nyz-road,JAIPUR",
+    beds: 2,
+    bath: 6,
+    sqft: "76x2",
+    liked: false,
+  },
 ];

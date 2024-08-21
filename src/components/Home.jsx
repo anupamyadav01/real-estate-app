@@ -10,37 +10,40 @@ const Home = ({ data }) => {
   const [date, setDate] = useState("");
   const [price, setPrice] = useState(0);
   const [propertyType, setPropertyType] = useState("");
-  const [filteredData, setFilteredData] = useState("");
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    if (
+      city.trim().length === 0 ||
+      price.trim().length === 0 ||
+      propertyType.trim().length === 0
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
 
-    // item.address.split(",").at(-1).toLowerCase() ===
-    //   city.trim().toLowerCase() &&
-    //   (parseInt(price.split("-")[0]) < item.price) &
-    //     (parseInt(price.split("-")[1]) > item.price);
+    const newDat = data.filter(
+      (item) =>
+        item.address.split(",").at(-1).toLowerCase() ===
+          city.trim().toLowerCase() &&
+        (parseInt(price.split("-")[0]) < item.price) &
+          (parseInt(price.split("-")[1]) > item.price) &&
+        item.type === propertyType
+    );
+    setHotelsData(newDat);
+  };
+  console.log(hotelsData);
 
-    const newDat = hotelsData.filter((item) => {
-      // Extract city from address and ensure it's trimmed and lowercased
-      const itemCity = item.address.split(",").at(-1).trim().toLowerCase();
-      const filterCity = city.trim().toLowerCase();
-
-      // Parse price range from the filter
-      const [minPrice, maxPrice] = price
-        .split("-")
-        .map((p) => parseInt(p.trim(), 10));
-
-      // Check if all conditions match
-      return (
-        itemCity === filterCity &&
-        item.type === propertyType &&
-        item.price >= minPrice &&
-        item.price <= maxPrice
-      );
-    });
-
-    setFilteredData(newDat);
-    // console.log(parseInt(price.split("-")[0]));
-    console.log(filteredData);
+  const handleOnSearchClick = () => {
+    if (searchQuery.trim().length === 0) {
+      alert("Please enter a search query");
+      return;
+    }
+    const filteredData = data.filter(
+      (item) =>
+        item.address.split(",").at(-1).toLowerCase() ===
+        searchQuery.trim().toLowerCase()
+    );
+    setHotelsData(filteredData);
   };
 
   return (
@@ -62,10 +65,13 @@ const Home = ({ data }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="p-2 border border-gray-300 outline-none rounded-md w-full sm:w-auto"
             />
-            <button className="py-2 px-4 border border-gray-300 outline-none rounded-md">
+            <button
+              onClick={handleOnSearchClick}
+              className="py-2 px-4 border border-blue-500 outline-none rounded-md text-blue-500 hover:bg-blue-100 active:bg-blue-200"
+            >
               Search
             </button>
-            <button className="py-2 px-4 border border-gray-300 outline-none rounded-md">
+            <button className="py-2 px-4 border border-blue-500 outline-none rounded-md text-blue-500 hover:bg-blue-100 active:bg-blue-200">
               Liked
             </button>
           </span>
@@ -100,7 +106,7 @@ const Home = ({ data }) => {
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full border border-gray-300 px-2 py-2 rounded-md"
               >
-                <option value="0-3000">0 - 3000</option>
+                <option value="0-3000">Rs 0 - 3000</option>
                 <option value="0-500">Rs 0 - 500</option>
                 <option value="500-1000">Rs 500 - 1000</option>
                 <option value="1000-1500">Rs 1000 - 1500</option>
@@ -116,7 +122,7 @@ const Home = ({ data }) => {
                 onChange={(e) => setPropertyType(e.target.value)}
                 className="w-full border border-gray-300 px-2 py-2 rounded-md"
               >
-                <option value="All">All</option>
+                <option>All</option>
                 <option value="hotel">Hotel</option>
                 <option value="villa">Villa</option>
                 <option value="house">House</option>
@@ -139,7 +145,7 @@ const Home = ({ data }) => {
 
         {/* Responsive Houses Grid */}
         <div className="mt-5 w-full">
-          <HousesGrid data={data} />
+          <HousesGrid data={hotelsData} />
         </div>
       </div>
     </div>
